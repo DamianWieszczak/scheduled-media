@@ -41,3 +41,10 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+on_worker_boot do
+  # ...
+  if defined?(Resque)
+     Resque.redis = ENV["REDIS_URL"] || "redis://127.0.0.1:6379"
+  end
+end
